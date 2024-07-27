@@ -29,9 +29,14 @@ struct ContentView: View {
                             .frame(maxWidth: .infinity)
                     }
                 }
-                
+                LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 7)) {
+                    ForEach(days) { day in
+                        Text(day.date!.formatted(.dateTime.day()))
+                    }
+                }
                 
             }
+            .padding()
             
         }
     }
