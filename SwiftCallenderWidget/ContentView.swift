@@ -20,10 +20,17 @@ struct ContentView: View {
     
     var body: some View {
         NavigationView {
-            List {
-                ForEach(days) { day in
-                    Text("Item at \(day.date!.formatted())")
+            VStack {
+                HStack {
+                    ForEach(daysOfWeek, id: \.self) { day in
+                        Text(day)
+                            .fontWeight(.black)
+                            .foregroundStyle(.orange)
+                            .frame(maxWidth: .infinity)
+                    }
                 }
+                
+                
             }
             
         }
