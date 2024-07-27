@@ -8,7 +8,7 @@
 import SwiftUI
 import CoreData
 
-struct ContentView: View {
+struct CalenderView: View {
     @Environment(\.managedObjectContext) private var viewContext
 
     @FetchRequest(
@@ -19,7 +19,7 @@ struct ContentView: View {
     let daysOfWeek = ["S","M","T","W","T","F","S"]
     
     var body: some View {
-        NavigationView {
+        NavigationStack {
             VStack {
                 HStack {
                     ForEach(daysOfWeek, id: \.self) { day in
@@ -33,6 +33,7 @@ struct ContentView: View {
                     ForEach(days) { day in
                         Text(day.date!.formatted(.dateTime.day()))
                             .fontWeight(.bold)
+                            .foregroundStyle(day.didStudy ? .orange : .secondary)
                             .frame(maxWidth: .infinity, minHeight: 40)
                             .background(
                                 Circle()
@@ -40,10 +41,10 @@ struct ContentView: View {
                             )
                     }
                 }
-                
+                Spacer()
             }
             .padding()
-            
+            .navigationTitle(Date().formatted(.dateTime.month(.wide)))
         }
     }
 }
@@ -56,5 +57,5 @@ private let itemFormatter: DateFormatter = {
 }()
 
 #Preview {
-    ContentView().environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+    CalenderView().environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
 }

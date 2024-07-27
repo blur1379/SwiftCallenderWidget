@@ -13,7 +13,7 @@ struct SwiftCallenderWidgetApp: App {
 
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            CalenderView()
                 .environment(\.managedObjectContext, persistenceController.container.viewContext)
         }
     }
