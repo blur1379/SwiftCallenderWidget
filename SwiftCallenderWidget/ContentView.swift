@@ -32,6 +32,12 @@ struct ContentView: View {
                 LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 7)) {
                     ForEach(days) { day in
                         Text(day.date!.formatted(.dateTime.day()))
+                            .fontWeight(.bold)
+                            .frame(maxWidth: .infinity, minHeight: 40)
+                            .background(
+                                Circle()
+                                    .fill(.orange.opacity(day.didStudy ? 0.3 : 0.0))
+                            )
                     }
                 }
                 
