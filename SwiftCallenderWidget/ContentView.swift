@@ -16,6 +16,8 @@ struct ContentView: View {
         animation: .default)
     private var days: FetchedResults<Day>
     
+    let daysOfWeek = ["S","M","T","W","T","F","S"]
+    
     var body: some View {
         NavigationView {
             List {
