@@ -47,6 +47,19 @@ struct CalenderView: View {
             .navigationTitle(Date().formatted(.dateTime.month(.wide)))
         }
     }
+    
+    func createMonthDays(for date: Date) {
+        for dayOffset in 0...date.numberOfDaysInMonth {
+            let newItem = Day(context: viewContext)
+            newItem.date = Calendar.current.date(byAdding: .day, value: dayOffset, to: date.startOfMonth)
+            newItem.didStudy = false
+        }
+        do {
+            try viewContext.save()
+        } catch {
+            print("faile d to save context")
+        }
+    }
 }
 
 private let itemFormatter: DateFormatter = {
