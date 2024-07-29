@@ -13,7 +13,9 @@ struct CalenderView: View {
 
     @FetchRequest(
         sortDescriptors: [NSSortDescriptor(keyPath: \Day.date, ascending: true)],
-        predicate: NSPredicate(format: "(date >= %@) AND (date <= %@)",Date().startOfMonth as CVarArg, Date().endOfMonth as CVarArg),
+        predicate: NSPredicate(format: "(date >= %@) AND (date <= %@)",
+                               Date().startOfCalendarWithPrefixDays as CVarArg,
+                               Date().endOfMonth as CVarArg),
         animation: .default)
     private var days: FetchedResults<Day>
     
