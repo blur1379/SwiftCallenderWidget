@@ -34,14 +34,18 @@ struct CalenderView: View {
                 }
                 LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 7)) {
                     ForEach(days) { day in
-                        Text(day.date!.formatted(.dateTime.day()))
-                            .fontWeight(.bold)
-                            .foregroundStyle(day.didStudy ? .orange : .secondary)
-                            .frame(maxWidth: .infinity, minHeight: 40)
-                            .background(
-                                Circle()
-                                    .fill(.orange.opacity(day.didStudy ? 0.3 : 0.0))
-                            )
+                        if day.date!.monthInt != Date().monthInt {
+                            Text(" ")
+                        } else {
+                            Text(day.date!.formatted(.dateTime.day()))
+                                .fontWeight(.bold)
+                                .foregroundStyle(day.didStudy ? .orange : .secondary)
+                                .frame(maxWidth: .infinity, minHeight: 40)
+                                .background(
+                                    Circle()
+                                        .fill(.orange.opacity(day.didStudy ? 0.3 : 0.0))
+                                )
+                        }                       
                     }
                 }
                 Spacer()
