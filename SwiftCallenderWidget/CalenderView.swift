@@ -50,6 +50,9 @@ struct CalenderView: View {
             .navigationTitle(Date().formatted(.dateTime.month(.wide)))
             .onAppear {
                 if days.isEmpty {
+                    createMonthDays(for: .now.startOfPreviousMonth)
+                    createMonthDays(for: .now)
+                } else if days.count < 10 {
                     createMonthDays(for: .now)
                 }
             }
