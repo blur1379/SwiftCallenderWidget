@@ -8,7 +8,7 @@
 import SwiftUI
 import CoreData
 
-struct CalenderView: View {
+struct CalendarView: View {
     @Environment(\.managedObjectContext) private var viewContext
 
     @FetchRequest(
@@ -100,5 +100,5 @@ private let itemFormatter: DateFormatter = {
 }()
 
 #Preview {
-    CalenderView().environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+    CalendarView().environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
 }
