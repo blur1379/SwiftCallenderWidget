@@ -13,7 +13,22 @@ struct SwiftCallenderWidgetApp: App {
 
     var body: some Scene {
         WindowGroup {
-            CalenderView()
+            TabView {
+                CalendarView()
+                    .tabItem {
+                        Image(systemName: "calendar")
+                        Text("Calendar")
+                    }
+                
+                StreakView()
+                    .tabItem {
+                        Image(systemName: "swift")
+                        Text("Streak")
+                    }
+                
+            }
+                
+          
                 .environment(\.managedObjectContext, persistenceController.container.viewContext)
         }
     }

@@ -29,6 +29,7 @@ struct StreakView: View {
                 .foregroundColor(.secondary)
         }
         .offset(y: -50)
+        .onAppear { streakValue = calculateStreakValue() }
     }
     
     func calculateStreakValue() -> Int{
