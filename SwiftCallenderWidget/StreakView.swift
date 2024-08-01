@@ -6,8 +6,16 @@
 //
 
 import SwiftUI
+import CoreData
 
 struct StreakView: View {
+    @FetchRequest(
+        sortDescriptors: [NSSortDescriptor(keyPath: \Day.date, ascending: true)],
+        predicate: NSPredicate(format: "(date >= %@) AND (date <= %@)",
+                               Date().startOfMonth as CVarArg,
+                               Date().endOfMonth as CVarArg),
+        animation: .default)
+    private var days: FetchedResults<Day>
     
     @State private var streakValue = 0
     var body: some View {
