@@ -9,7 +9,21 @@ import CoreData
 
 struct PersistenceController {
     static let shared = PersistenceController()
-
+    let databaseName = "SwiftCallenderWidget.sqlite"
+    
+    
+    var oldStoreUrl: URL {
+        let directory = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first!
+        return directory.appendingPathComponent(databaseName)
+    }
+    
+    var sharedStoreUrl: URL {
+        let fileManager = FileManager.default
+        var url = fileManager.containerURL(forSecurityApplicationGroupIdentifier: "group.com.mohammadblur.SwiftCallenderWidget")!
+        url.appendPathComponent(databaseName)
+        return url
+    }
+    
     @MainActor
     static let preview: PersistenceController = {
         let result = PersistenceController(inMemory: true)
@@ -35,6 +49,8 @@ struct PersistenceController {
         container = NSPersistentContainer(name: "SwiftCallenderWidget")
         if inMemory {
             container.persistentStoreDescriptions.first!.url = URL(fileURLWithPath: "/dev/null")
+        } else {
+            container.persistentStoreDescriptions.first!.url = sharedStoreUrl
         }
         container.loadPersistentStores(completionHandler: { (storeDescription, error) in
             if let error = error as NSError? {
