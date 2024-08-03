@@ -64,5 +64,10 @@ struct PersistenceController {
         let coordinator = container.persistentStoreCoordinator
         guard let oldStore = coordinator.persistentStore(for: oldStoreUrl) else { return }
         
+        do {
+            try coordinator.migratePersistentStore(oldStore, to: sharedStoreUrl, type: .sqlite)
+        } catch {
+            fatalError("unable to migrate store: \(error.localizedDescription)")
+        }
     }
 }
