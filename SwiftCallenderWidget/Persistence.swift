@@ -59,4 +59,10 @@ struct PersistenceController {
         })
         container.viewContext.automaticallyMergesChangesFromParent = true
     }
+    
+    func migrateStore(for container: NSPersistentContainer) {
+        let coordinator = container.persistentStoreCoordinator
+        guard let oldStore = coordinator.persistentStore(for: oldStoreUrl) else { return }
+        
+    }
 }
