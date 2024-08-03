@@ -69,5 +69,12 @@ struct PersistenceController {
         } catch {
             fatalError("unable to migrate store: \(error.localizedDescription)")
         }
+        
+        do {
+            try FileManager.default.removeItem(at: oldStoreUrl)
+            print("old store removed")
+        } catch {
+            print("unable to remove old store: \(error.localizedDescription)")
+        }
     }
 }
