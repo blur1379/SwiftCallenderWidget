@@ -49,7 +49,8 @@ struct PersistenceController {
         container = NSPersistentContainer(name: "SwiftCallenderWidget")
         if inMemory {
             container.persistentStoreDescriptions.first!.url = URL(fileURLWithPath: "/dev/null")
-        } else {
+        } else if !FileManager.default.fileExists(atPath: oldStoreUrl.path) {
+            print("old store dose not exist, creating new one")
             container.persistentStoreDescriptions.first!.url = sharedStoreUrl
         }
         container.loadPersistentStores(completionHandler: { (storeDescription, error) in
@@ -57,6 +58,7 @@ struct PersistenceController {
                 fatalError("Unresolved error \(error), \(error.userInfo)")
             }
         })
+        migrateStore(for: container)
         container.viewContext.automaticallyMergesChangesFromParent = true
     }
     
@@ -65,7 +67,8 @@ struct PersistenceController {
         guard let oldStore = coordinator.persistentStore(for: oldStoreUrl) else { return }
         
         do {
-            try coordinator.migratePersistentStore(oldStore, to: sharedStoreUrl, type: .sqlite)
+            let _ = try coordinator.migratePersistentStore(oldStore, to: sharedStoreUrl, type: .sqlite)
+            print("migration successful")
         } catch {
             fatalError("unable to migrate store: \(error.localizedDescription)")
         }
