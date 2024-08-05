@@ -19,7 +19,7 @@ struct PersistenceController {
     
     var sharedStoreUrl: URL {
         let fileManager = FileManager.default
-        var url = fileManager.containerURL(forSecurityApplicationGroupIdentifier: "group.com.mohammadblur.SwiftCallenderWidget")!
+        var url = fileManager.containerURL(forSecurityApplicationGroupIdentifier: "group.app.blur.SwiftCallenderWidget")!
         url.appendPathComponent(databaseName)
         return url
     }
