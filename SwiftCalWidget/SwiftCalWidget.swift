@@ -47,13 +47,24 @@ struct SwiftCalWidgetEntryView : View {
     var entry: Provider.Entry
 
     var body: some View {
-        VStack {
-            Text("Time:")
-            Text(entry.date, style: .time)
-
-            Text("Emoji:")
-            Text(entry.emoji)
+        HStack {
+            VStack {
+                Text("30")
+                    .font(.system(size: 70, design: .rounded))
+                    .bold()
+                    .foregroundStyle(.orange)
+                Text("day streak")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            }
+            
+            VStack {
+                Text("calendar")
+                    
+            }
         }
+      
+       
     }
 }
 
@@ -76,7 +87,7 @@ struct SwiftCalWidget: Widget {
     }
 }
 
-#Preview(as: .systemSmall) {
+#Preview(as: .systemMedium) {
     SwiftCalWidget()
 } timeline: {
     SimpleEntry(date: .now, emoji: "😀")
