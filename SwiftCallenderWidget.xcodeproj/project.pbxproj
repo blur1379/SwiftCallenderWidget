@@ -45,6 +45,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		A975F5BD2C62BC9E000DAD8E /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				CalendarHeaderView.swift,
+			);
+			target = A9D032022C5CCDD100B358E5 /* SwiftCalWidgetExtension */;
+		};
 		A9D032172C5CCDD200B358E5 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
@@ -55,7 +62,7 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		A9ACC5D02C52B7F200191423 /* SwiftCallenderWidget */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = SwiftCallenderWidget; sourceTree = "<group>"; };
+		A9ACC5D02C52B7F200191423 /* SwiftCallenderWidget */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (A975F5BD2C62BC9E000DAD8E /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = SwiftCallenderWidget; sourceTree = "<group>"; };
 		A9D032092C5CCDD100B358E5 /* SwiftCalWidget */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (A9D032172C5CCDD200B358E5 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = SwiftCalWidget; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
