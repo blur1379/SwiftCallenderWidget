@@ -9,23 +9,30 @@ import WidgetKit
 import SwiftUI
 
 struct Provider: TimelineProvider {
-    func placeholder(in context: Context) -> SimpleEntry {
-        SimpleEntry(date: Date(), emoji: "😀")
+    func placeholder(in context: Context) -> CalendarEntry {
+        CalendarEntry(date: Date(), days: [])
     }
 
-    func getSnapshot(in context: Context, completion: @escaping (SimpleEntry) -> ()) {
-        let entry = SimpleEntry(date: Date(), emoji: "😀")
+    func getSnapshot(in context: Context, completion: @escaping (CalendarEntry) -> ()) {
+        let request = Day.fetchRequest()
+        request.sortDescriptors = [NSSortDescriptor(keyPath: \Day.date, ascending: true)]
+        request.predicate = NSPredicate(format: "(date >= %@) AND (date <= %@)",
+                                         Date().startOfCalendarWithPrefixDays as CVarArg,
+                                         Date().endOfMonth as CVarArg)
+        let context
+        
+        let entry = CalendarEntry(date: Date(), days: [])
         completion(entry)
     }
 
     func getTimeline(in context: Context, completion: @escaping (Timeline<Entry>) -> ()) {
-        var entries: [SimpleEntry] = []
+        var entries: [CalendarEntry] = []
 
         // Generate a timeline consisting of five entries an hour apart, starting from the current date.
         let currentDate = Date()
         for hourOffset in 0 ..< 5 {
             let entryDate = Calendar.current.date(byAdding: .hour, value: hourOffset, to: currentDate)!
-            let entry = SimpleEntry(date: entryDate, emoji: "😀")
+            let entry = CalendarEntry(date: entryDate, days: [])
             entries.append(entry)
         }
 
@@ -38,9 +45,9 @@ struct Provider: TimelineProvider {
 //    }
 }
 
-struct SimpleEntry: TimelineEntry {
+struct CalendarEntry: TimelineEntry {
     let date: Date
-    let emoji: String
+    let days: [Day]
 }
 
 struct SwiftCalWidgetEntryView : View {
@@ -104,6 +111,6 @@ struct SwiftCalWidget: Widget {
 #Preview(as: .systemMedium) {
     SwiftCalWidget()
 } timeline: {
-    SimpleEntry(date: .now, emoji: "😀")
-    SimpleEntry(date: .now, emoji: "🤩")
+    CalendarEntry(date: .now, days: [])
+    CalendarEntry(date: .now, days: [])
 }
