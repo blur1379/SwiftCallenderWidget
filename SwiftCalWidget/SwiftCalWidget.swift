@@ -45,7 +45,7 @@ struct SimpleEntry: TimelineEntry {
 
 struct SwiftCalWidgetEntryView : View {
     var entry: Provider.Entry
-
+    let columns = Array(repeating: GridItem(.flexible()), count: 7)
     var body: some View {
         HStack {
             VStack {
@@ -59,9 +59,23 @@ struct SwiftCalWidgetEntryView : View {
             }
             
             VStack {
-                Text("calendar")
-                    
+                CalendarHeaderView(font: .caption)
+                LazyVGrid(columns: columns, spacing: 7) {
+                    ForEach(0..<31){ _ in
+                        Text("30")
+                            .font(.caption)
+                            .bold()
+                            .frame(maxWidth: .infinity)
+                            .foregroundStyle(.secondary)
+                            .background(
+                            Circle()
+                                .foregroundStyle(.orange.opacity(0.3))
+                                .scaleEffect(1.5)
+                            )
+                    }
+                }
             }
+            .padding(.leading, 6)
         }
       
        
