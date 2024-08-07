@@ -9,8 +9,17 @@ import SwiftUI
 
 struct CalendarHeaderView: View {
     let daysOfWeek = ["S","M","T","W","T","F","S"]
+    var font: Font = .body
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        HStack {
+            ForEach(daysOfWeek, id: \.self) { day in
+                Text(day)
+                    .font(font)
+                    .fontWeight(.black)
+                    .foregroundStyle(.orange)
+                    .frame(maxWidth: .infinity)
+            }
+        }
     }
 }
 
