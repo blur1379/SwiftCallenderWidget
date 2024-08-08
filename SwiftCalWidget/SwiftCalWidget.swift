@@ -36,11 +36,10 @@ struct Provider: TimelineProvider {
     }
 
     func getTimeline(in context: Context, completion: @escaping (Timeline<Entry>) -> ()) {
-        var entries: [CalendarEntry] = []
         do {
             let days = try viewContext.fetch(dayFetchRequest)
             let entry = CalendarEntry(date: Date(), days: days)
-            let timeline = Timeline(entries: entries, policy: .atEnd)
+            let timeline = Timeline(entries: [entry], policy: .after(.now.endOfDay))
             completion(timeline)
         } catch {
             print("Failed to fetch days: \(error)")
