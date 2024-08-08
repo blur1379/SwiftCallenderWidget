@@ -32,7 +32,7 @@ struct StreakView: View {
         .onAppear { streakValue = calculateStreakValue() }
     }
     
-    func calculateStreakValue() -> Int{
+    func calculateStreakValue() -> Int {
         guard !days.isEmpty else { return 0 }
         
         let nonFutureDays = days.filter { $0.date!.dayInt <= Date().dayInt }
