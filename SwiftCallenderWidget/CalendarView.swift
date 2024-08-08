@@ -7,6 +7,7 @@
 
 import SwiftUI
 import CoreData
+import WidgetKit
 
 struct CalendarView: View {
     @Environment(\.managedObjectContext) private var viewContext
@@ -43,6 +44,7 @@ struct CalendarView: View {
                                         day.didStudy.toggle()
                                         do {
                                             try viewContext.save()
+                                            WidgetCenter.shared.reloadTimelines(ofKind: "SwiftCalWidget")
                                             print("\(day.date!.dayInt) now studied !")
                                         } catch {
                                             print("Error saving data: \(error.localizedDescription)")
