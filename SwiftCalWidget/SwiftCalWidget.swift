@@ -7,37 +7,44 @@
 
 import WidgetKit
 import SwiftUI
+import CoreData
+
 
 struct Provider: TimelineProvider {
-    func placeholder(in context: Context) -> CalendarEntry {
-        CalendarEntry(date: Date(), days: [])
-    }
-
-    func getSnapshot(in context: Context, completion: @escaping (CalendarEntry) -> ()) {
+    let viewContext = PersistenceController.shared.container.viewContext
+    var dayFetchRequest: NSFetchRequest<Day> {
         let request = Day.fetchRequest()
         request.sortDescriptors = [NSSortDescriptor(keyPath: \Day.date, ascending: true)]
         request.predicate = NSPredicate(format: "(date >= %@) AND (date <= %@)",
                                          Date().startOfCalendarWithPrefixDays as CVarArg,
                                          Date().endOfMonth as CVarArg)
-        let context
-        
-        let entry = CalendarEntry(date: Date(), days: [])
-        completion(entry)
+        return request
+    }
+    
+    func placeholder(in context: Context) -> CalendarEntry {
+        CalendarEntry(date: Date(), days: [])
+    }
+
+    func getSnapshot(in context: Context, completion: @escaping (CalendarEntry) -> ()) {
+        do {
+            let days = try viewContext.fetch(dayFetchRequest)
+            let entry = CalendarEntry(date: Date(), days: days)
+            completion(entry)
+        } catch {
+            print("Failed to fetch days: \(error)")
+        }
     }
 
     func getTimeline(in context: Context, completion: @escaping (Timeline<Entry>) -> ()) {
         var entries: [CalendarEntry] = []
-
-        // Generate a timeline consisting of five entries an hour apart, starting from the current date.
-        let currentDate = Date()
-        for hourOffset in 0 ..< 5 {
-            let entryDate = Calendar.current.date(byAdding: .hour, value: hourOffset, to: currentDate)!
-            let entry = CalendarEntry(date: entryDate, days: [])
-            entries.append(entry)
+        do {
+            let days = try viewContext.fetch(dayFetchRequest)
+            let entry = CalendarEntry(date: Date(), days: days)
+            let timeline = Timeline(entries: entries, policy: .atEnd)
+            completion(timeline)
+        } catch {
+            print("Failed to fetch days: \(error)")
         }
-
-        let timeline = Timeline(entries: entries, policy: .atEnd)
-        completion(timeline)
     }
 
 //    func relevances() async -> WidgetRelevances<Void> {
