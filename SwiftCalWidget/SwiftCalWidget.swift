@@ -61,39 +61,44 @@ struct SwiftCalWidgetEntryView : View {
     let columns = Array(repeating: GridItem(.flexible()), count: 7)
     var body: some View {
         HStack {
-            VStack {
-                Text("\(calculateStreakValue())")
-                    .font(.system(size: 70, design: .rounded))
-                    .bold()
-                    .foregroundStyle(.orange)
-                Text("day streak")
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
-            }
-            
-            VStack {
-                CalendarHeaderView(font: .caption)
-                LazyVGrid(columns: columns, spacing: 7) {
-                    ForEach(entry.days) { day in
-                        if day.date!.monthInt != Date().monthInt {
-                            Text(" ")
-                        } else {
-                            Text(day.date!.formatted(.dateTime.day()))
-                                .font(.caption)
-                                .bold()
-                                .frame(maxWidth: .infinity)
-                                .foregroundStyle(day.didStudy ? .orange : .secondary)
-                                .background(
-                                    Circle()
-                                        .foregroundStyle(.orange.opacity(day.didStudy ? 0.3 : 0.0))
-                                        .scaleEffect(1.5)
-                                )
-                        }
-                        
-                    }
+            Link(destination: URL(string: "streak ")!) {
+                VStack {
+                    Text("\(calculateStreakValue())")
+                        .font(.system(size: 70, design: .rounded))
+                        .bold()
+                        .foregroundStyle(.orange)
+                    Text("day streak")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
                 }
             }
-            .padding(.leading, 6)
+            
+            Link(destination: URL(string: "calendar")!) {
+                VStack {
+                    CalendarHeaderView(font: .caption)
+                    LazyVGrid(columns: columns, spacing: 7) {
+                        ForEach(entry.days) { day in
+                            if day.date!.monthInt != Date().monthInt {
+                                Text(" ")
+                            } else {
+                                Text(day.date!.formatted(.dateTime.day()))
+                                    .font(.caption)
+                                    .bold()
+                                    .frame(maxWidth: .infinity)
+                                    .foregroundStyle(day.didStudy ? .orange : .secondary)
+                                    .background(
+                                        Circle()
+                                            .foregroundStyle(.orange.opacity(day.didStudy ? 0.3 : 0.0))
+                                            .scaleEffect(1.5)
+                                    )
+                            }
+                            
+                        }
+                    }
+                }
+                .padding(.leading, 6)
+            }
+           
         }
         
         
@@ -135,6 +140,7 @@ struct SwiftCalWidget: Widget {
         }
         .configurationDisplayName("Swift study Calendar")
         .description("Track days you study Swift with streak.")
+        .supportedFamilies([.systemMedium])
     }
 }
 
