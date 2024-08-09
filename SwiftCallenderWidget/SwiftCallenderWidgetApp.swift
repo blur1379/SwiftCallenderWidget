@@ -10,10 +10,10 @@ import SwiftUI
 @main
 struct SwiftCallenderWidgetApp: App {
     let persistenceController = PersistenceController.shared
-
+    @State private var selectedTab = 0
     var body: some Scene {
         WindowGroup {
-            TabView {
+            TabView(selection: $selectedTab) {
                 CalendarView()
                     .tabItem {
                         Image(systemName: "calendar")
@@ -25,11 +25,11 @@ struct SwiftCallenderWidgetApp: App {
                         Image(systemName: "swift")
                         Text("Streak")
                     }
-                
             }
-                
-          
-                .environment(\.managedObjectContext, persistenceController.container.viewContext)
+            .environment(\.managedObjectContext, persistenceController.container.viewContext)
+            .onOpenURL { url in
+                selectedTab = url.absoluteString == "streak" ? 1 : 0
+            }
         }
     }
 }
