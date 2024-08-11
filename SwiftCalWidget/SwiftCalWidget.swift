@@ -74,7 +74,7 @@ struct SwiftCalWidgetEntryView : View {
         default:
             EmptyView()
         }
-
+        
         
         
     }
@@ -177,7 +177,7 @@ private struct MediumCalendarView: View {
                 }
                 .padding(.leading, 6)
             }
-           
+            
         }
     }
 }
@@ -185,14 +185,51 @@ private struct MediumCalendarView: View {
 
 private struct LockScreenCircularView: View {
     var entry: CalendarEntry
-    
+    var currentCalendarDays: Int {
+        entry.days.filter { $0.date?.monthInt == Date().monthInt }.count
+    }
+    var didStudied: Int {
+        entry.days.filter { $0.date?.monthInt == Date().monthInt }.filter{ $0.didStudy }.count
+    }
     var body: some View {
-        Gauge(value: 15.0, in: 0...Double(entry.days.count)) {
+        Gauge(value: Double(didStudied), in: 0...Double(currentCalendarDays)) {
             Image(systemName: "swift")
-                
+            
         } currentValueLabel: {
-            Text("15")
+            Text("\(didStudied)")
         }
         .gaugeStyle(.accessoryCircular)
+    }
+}
+
+private struct LockScreenRectangularView: View {
+    var entry: CalendarEntry
+    let columns = Array(repeating: GridItem(.flexible()), count: 7)
+    
+    var body: some View {
+        VStack {
+            LazyVGrid(columns: columns, spacing: 7) {
+                ForEach(entry.days) { day in
+                    if day.date!.monthInt != Date().monthInt {
+                        Text(" ")
+                    } else {
+                        if day.didStudy {
+                            Image(systemName: "swift")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 7, height: 7)
+                                
+                        } else {
+                            Text(day.date!.formatted(.dateTime.day()))
+                                .font(.system(size: 7))
+                                .frame(maxWidth: .infinity)
+                        }
+
+                    }
+                    
+                }
+            }
+        }
+        .padding(.leading, 6)
     }
 }
