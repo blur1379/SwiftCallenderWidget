@@ -68,7 +68,7 @@ struct SwiftCalWidgetEntryView : View {
         case .accessoryCircular:
             EmptyView()
         case .accessoryInline:
-            EmptyView()
+            Label("Streak - \(calculateStreakValue()) days", systemImage: "swift")
         case .accessoryRectangular:
             EmptyView()
         default:
@@ -124,7 +124,7 @@ struct SwiftCalWidget: Widget {
     }
 }
 
-#Preview(as: .systemMedium) {
+#Preview(as: .accessoryInline) {
     SwiftCalWidget()
 } timeline: {
     CalendarEntry(date: .now, days: [])
