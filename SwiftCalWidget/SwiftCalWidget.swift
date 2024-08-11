@@ -66,7 +66,7 @@ struct SwiftCalWidgetEntryView : View {
         case .systemMedium:
             MediumCalendarView(entry: entry, streakValue: calculateStreakValue())
         case .accessoryCircular:
-            EmptyView()
+            LockScreenCircularView(entry: entry)
         case .accessoryInline:
             Label("Streak - \(calculateStreakValue()) days", systemImage: "swift")
         case .accessoryRectangular:
@@ -179,5 +179,20 @@ private struct MediumCalendarView: View {
             }
            
         }
+    }
+}
+
+
+private struct LockScreenCircularView: View {
+    var entry: CalendarEntry
+    
+    var body: some View {
+        Gauge(value: 15.0, in: 0...Double(entry.days.count)) {
+            Image(systemName: "swift")
+                
+        } currentValueLabel: {
+            Text("15")
+        }
+        .gaugeStyle(.accessoryCircular)
     }
 }
