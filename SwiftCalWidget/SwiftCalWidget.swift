@@ -64,10 +64,15 @@ struct SwiftCalWidgetEntryView : View {
         
         switch widgetFamily {
         case .systemMedium:
-            return MediumCalendarView(entry: entry)
-      
+            MediumCalendarView(entry: entry, streakValue: calculateStreakValue())
+        case .accessoryCircular:
+            EmptyView()
+        case .accessoryInline:
+            EmptyView()
+        case .accessoryRectangular:
+            EmptyView()
         default:
-            return MediumCalendarView(entry: entry)
+            EmptyView()
         }
 
         
@@ -112,7 +117,10 @@ struct SwiftCalWidget: Widget {
         }
         .configurationDisplayName("Swift study Calendar")
         .description("Track days you study Swift with streak.")
-        .supportedFamilies([.systemMedium])
+        .supportedFamilies([.systemMedium,
+                            .accessoryCircular,
+                            .accessoryInline,
+                            .accessoryRectangular])
     }
 }
 
@@ -127,12 +135,14 @@ struct SwiftCalWidget: Widget {
 
 private struct MediumCalendarView: View {
     var entry: CalendarEntry
+    var streakValue: Int
     let columns = Array(repeating: GridItem(.flexible()), count: 7)
+    
     var body: some View {
         HStack {
             Link(destination: URL(string: "streak ")!) {
                 VStack {
-                    Text("\(calculateStreakValue())")
+                    Text("\(streakValue)")
                         .font(.system(size: 70, design: .rounded))
                         .bold()
                         .foregroundStyle(.orange)
