@@ -70,7 +70,7 @@ struct SwiftCalWidgetEntryView : View {
         case .accessoryInline:
             Label("Streak - \(calculateStreakValue()) days", systemImage: "swift")
         case .accessoryRectangular:
-            EmptyView()
+            LockScreenRectangularView(entry: entry)
         default:
             EmptyView()
         }
@@ -204,7 +204,7 @@ private struct LockScreenCircularView: View {
 
 private struct LockScreenRectangularView: View {
     var entry: CalendarEntry
-    let columns = Array(repeating: GridItem(.flexible()), count: 7)
+    let columns = Array(repeating: GridItem(.flexible()), count: 4)
     
     var body: some View {
         VStack {
@@ -212,6 +212,7 @@ private struct LockScreenRectangularView: View {
                 ForEach(entry.days) { day in
                     if day.date!.monthInt != Date().monthInt {
                         Text(" ")
+                            .font(.system(size: 7))
                     } else {
                         if day.didStudy {
                             Image(systemName: "swift")
@@ -230,6 +231,5 @@ private struct LockScreenRectangularView: View {
                 }
             }
         }
-        .padding(.leading, 6)
     }
 }
